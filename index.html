@@ -141,6 +141,18 @@ function submitTest(){
   document.querySelectorAll("input").forEach(x=>x.disabled=true);
   submitBtn.disabled=true;
   submitBtn.textContent="Test Submitted • Attempt Locked";
+  fetch("https://script.google.com/macros/s/AKfycbw_Y0aEfl-P78iPaaiYH2hB1HbvCPsyFKzUm-WhLsa3DFK3KjPs1XHjdrtG7sjXc1JxbQ/exec", {
+  method: "POST",
+  mode: "no-cors",
+  headers: {
+    "Content-Type": "text/plain"
+  },
+  body: JSON.stringify({
+    name: studentName,
+    score: score,
+    total: questions.length
+  })
+});
   document.getElementById("result").scrollIntoView({behavior:"smooth",block:"center"});
 }
 
