@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BCH I Sem · Amrapali University · Quiz</title>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(145deg, #f6f9fc 0%, #e6f0f5 100%);
+            padding: 2rem 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+
+        .quiz-container {
+            max-width: 1100px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(8px);
+            border-radius: 3rem 3rem 2rem 2rem;
+            box-shadow: 0 25px 40px -12px rgba(0, 40, 60, 0.35), 0 8px 20px rgba(0, 0, 0, 0.08);
+            padding: 2.5rem 2.8rem 3rem;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 2.2rem;
+            border-bottom: 3px dashed #2b7a78;
+            padding-bottom: 1.2rem;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            background: linear-gradient(135deg, #1e4b5c, #2b7a78);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.05);
+            margin-bottom: 0.4rem;
+        }
+
+        .header h2 {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #2c3e50;
+            background: #d0e8e6;
+            display: inline-block;
+            padding: 0.45rem 2rem;
+            border-radius: 40px;
+            letter-spacing: 0.5px;
+            box-shadow: inset 0 -2px 0 #aac9c6;
+        }
+
+        .marks-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #eaf4f4;
+            padding: 0.9rem 2rem;
+            border-radius: 50px;
+            margin: 1.5rem 0 1.8rem;
+            border-left: 8px solid #2b7a78;
+            box-shadow: 0 6px 12px rgba(43, 122, 120, 0.1);
+            font-weight: 600;
+            color: #1e3b3a;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .marks-info span i {
+            margin-right: 8px;
+            color: #2b7a78;
+        }
+
+        .badge {
+            background: #2b7a78;
+            color: white;
+            padding: 0.35rem 1.4rem;
+            border-radius: 30px;
+            font-size: 0.9rem;
+        }
+
+        /* Quiz Grid */
+        .quiz-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1.4rem;
+        }
+
+        .question-card {
+            background: white;
+            border-radius: 1.6rem;
+            padding: 1.2rem 1.8rem 1.4rem;
+            box-shadow: 0 8px 18px -6px rgba(0, 40, 50, 0.08), 0 2px 8px rgba(0, 0, 0, 0.02);
+            transition: all 0.15s ease;
+            border: 1px solid #d9e9e8;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .question-card:hover {
+            border-color: #7fb5b0;
+            box-shadow: 0 12px 22px -8px rgba(43, 122, 120, 0.25);
+        }
+
+        .q-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 0.8rem;
+        }
+
+        .q-number {
+            background: linear-gradient(145deg, #1e4b5c, #2b7a78);
+            color: white;
+            font-weight: 700;
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            font-size: 1rem;
+            box-shadow: 0 4px 8px rgba(0, 80, 80, 0.3);
+            flex-shrink: 0;
+        }
+
+        .q-text {
+            font-size: 1.08rem;
+            font-weight: 600;
+            color: #1e3b3a;
+            line-height: 1.5;
+            letter-spacing: 0.2px;
+        }
+
+        .options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.9rem 1.6rem;
+            margin-left: 50px;
+            margin-top: 0.6rem;
+        }
+
+        .option-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #f9fdfc;
+            padding: 0.6rem 1rem;
+            border-radius: 40px;
+            border: 1px solid #cfe2e0;
+            transition: background 0.2s, border 0.2s;
+            cursor: pointer;
+            font-size: 0.98rem;
+            color: #1f3e3c;
+        }
+
+        .option-item:hover {
+            background: #d9efed;
+            border-color: #2b7a78;
+        }
+
+        .option-item input[type="radio"] {
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border: 2px solid #2b7a78;
+            border-radius: 50%;
+            margin-right: 4px;
+            transition: 0.15s;
+            position: relative;
+            flex-shrink: 0;
+            cursor: pointer;
+        }
+
+        .option-item input[type="radio"]:checked {
+            background: #2b7a78;
+            border-color: #1e4b5c;
+            box-shadow: inset 0 0 0 4px white;
+        }
+
+        /* Submit Section */
+        .submit-area {
+            margin-top: 3rem;
+            text-align: center;
+        }
+
+        .submit-btn {
+            background: linear-gradient(145deg, #1e4b5c, #2b7a78);
+            border: none;
+            color: white;
+            font-weight: 700;
+            font-size: 1.35rem;
+            padding: 1rem 4rem;
+            border-radius: 60px;
+            letter-spacing: 1px;
+            box-shadow: 0 15px 25px -8px #1e4b5c, 0 6px 12px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 14px;
+            border: 1px solid #a9d3d0;
+        }
+
+        .submit-btn:hover {
+            background: linear-gradient(145deg, #123440, #1f5f5c);
+            box-shadow: 0 18px 30px -8px #0f2e2c;
+            transform: translateY(-2px);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            transform: none;
+            cursor: not-allowed;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .result-panel {
+            margin-top: 2.4rem;
+            background: #d6ecea;
+            border-radius: 50px;
+            padding: 1.3rem 2.5rem;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #0e3532;
+            text-align: center;
+            border-left: 12px solid #2b7a78;
+            box-shadow: inset 0 1px 6px rgba(255, 255, 255, 0.8), 0 10px 18px -6px #2b7a7840;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            gap: 18px;
+            letter-spacing: 0.5px;
+        }
+
+        .result-panel i {
+            font-size: 2.4rem;
+            color: #1b5b56;
+        }
+
+        .footer-note {
+            margin-top: 2rem;
+            font-size: 0.86rem;
+            text-align: center;
+            color: #5d8583;
+            font-weight: 500;
+        }
+
+        /* scroll behavior for 120 questions */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        @media (max-width: 750px) {
+            .quiz-container {
+                padding: 1.8rem 1.2rem;
+            }
+            .options {
+                grid-template-columns: 1fr;
+                margin-left: 20px;
+                gap: 0.7rem;
+            }
+            .q-text {
+                font-size: 1rem;
+            }
+            .header h1 {
+                font-size: 1.6rem;
+            }
+            .marks-info {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="quiz-container">
+    <!-- HEADER -->
+    <div class="header">
+        <h1><i class="fas fa-graduation-cap" style="margin-right: 10px; background: linear-gradient(145deg, #1e4b5c, #2b7a78); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i> BCH I Semester</h1>
+        <h2><i class="fas fa-university"></i> Amrapali University</h2>
+    </div>
+
+    <!-- MARKS BANNER -->
+    <div class="marks-info">
+        <span><i class="fas fa-question-circle"></i> 120 Questions</span>
+        <span><i class="fas fa-check-double"></i> Each 0.25 Mark</span>
+        <span class="badge"><i class="fas fa-star"></i> Total 30 Marks</span>
+        <span><i class="fas fa-lock"></i> Single Attempt Only</span>
+    </div>
+
+    <!-- QUIZ FORM -->
+    <form id="quizForm">
+        <div class="quiz-grid" id="quizGrid">
+            <!-- Questions will be injected by JS -->
+        </div>
+
+        <div class="submit-area">
+            <button type="button" class="submit-btn" id="submitBtn"><i class="fas fa-paper-plane"></i> Submit Quiz</button>
+        </div>
+    </form>
+
+    <!-- RESULT PANEL -->
+    <div class="result-panel" id="resultPanel">
+        <i class="fas fa-trophy"></i>
+        <span id="scoreDisplay">0 / 30</span>
+    </div>
+    <div class="footer-note">
+        <i class="fas fa-info-circle"></i> Attempt all 120 questions · Each correct = 0.25 mark
+    </div>
+</div>
+
+<script>
+    // ------------------------------
+    // Question Bank : 120 questions (Trading/P&L, Balance Sheet, Depreciation)
+    // ------------------------------
+    const questions = [
+        // 1-30: Trading and Profit & Loss Account
+        { q: "Which account is prepared to find out gross profit or gross loss?", options: ["Trading Account", "Profit & Loss Account", "Balance Sheet", "Cash Flow Statement"], correct: 0 },
+        { q: "The main purpose of preparing a Trading Account is to calculate:", options: ["Net profit", "Gross profit", "Operating profit", "Capital"], correct: 1 },
+        { q: "Which of the following is shown on the debit side of Trading Account?", options: ["Sales", "Closing stock", "Opening stock", "Gross loss"], correct: 2 },
+        { q: "Carriage inward is recorded in:", options: ["Trading Account (Dr.)", "Profit & Loss Account (Cr.)", "Balance Sheet (Liability)", "Trading Account (Cr.)"], correct: 0 },
+        { q: "Wages paid for installation of machinery are debited to:", options: ["Trading Account", "Machinery Account", "Profit & Loss Account", "Wages Account"], correct: 1 },
+        { q: "Which of the following is an indirect expense?", options: ["Carriage inward", "Wages", "Rent, rates & taxes", "Purchases"], correct: 2 },
+        { q: "Gross profit is transferred to:", options: ["Profit & Loss Account (Credit)", "Trading Account (Debit)", "Balance Sheet (Asset)", "Capital Account"], correct: 0 },
+        { q: "Closing stock appears in:", options: ["Trading Account (Cr.) and Balance Sheet (Asset)", "Only Trading Account", "Only Balance Sheet", "Profit & Loss Account"], correct: 0 },
+        { q: "Sales return is also known as:", options: ["Return outward", "Return inward", "Purchase return", "Carriage outward"], correct: 1 },
+        { q: "Which of the following is a direct expense?", options: ["Salary", "Insurance", "Factory rent", "Discount allowed"], correct: 2 },
+        { q: "Net profit is calculated in:", options: ["Trading Account", "Profit & Loss Account", "Balance Sheet", "Manufacturing Account"], correct: 1 },
+        { q: "Carriage outward is shown in:", options: ["Trading Account", "Profit & Loss Account (Dr.)", "Balance Sheet", "Profit & Loss Account (Cr.)"], correct: 1 },
+        { q: "Which item is not shown in Trading Account?", options: ["Opening stock", "Purchases", "Sales", "Salaries"], correct: 3 },
+        { q: "Cost of goods sold = Opening stock + Purchases + Direct expenses – ______", options: ["Sales", "Closing stock", "Indirect expenses", "Gross profit"], correct: 1 },
+        { q: "If sales are ₹1,00,000; gross profit is 25% on sales, then cost of goods sold is:", options: ["₹75,000", "₹25,000", "₹1,25,000", "₹80,000"], correct: 0 },
+        { q: "Profit & Loss Account is also known as:", options: ["Statement of financial position", "Statement of profit or loss", "Trial balance", "Cash flow statement"], correct: 1 },
+        { q: "Discount received is shown in:", options: ["Trading Account (Dr.)", "Profit & Loss Account (Cr.)", "Balance Sheet (Asset)", "Trading Account (Cr.)"], correct: 1 },
+        { q: "Which of the following is an operating expense?", options: ["Purchase of machinery", "Salaries", "Loan repayment", "Capital introduced"], correct: 1 },
+        { q: "Gross profit is derived after deducting:", options: ["Indirect expenses", "Direct expenses", "All expenses", "Taxes"], correct: 1 },
+        { q: "Which of these is not a direct expense?", options: ["Wages", "Carriage inward", "Factory rent", "Office rent"], correct: 3 },
+        { q: "Bad debts are recorded in:", options: ["Trading Account", "Profit & Loss Account", "Balance Sheet", "Capital Account"], correct: 1 },
+        { q: "If opening stock is ₹20,000, purchases ₹1,20,000, closing stock ₹30,000, and direct expenses ₹10,000, cost of goods sold is:", options: ["₹1,20,000", "₹1,30,000", "₹1,40,000", "₹1,50,000"], correct: 0 },
+        { q: "Which account is prepared after Trading Account?", options: ["Balance Sheet", "Profit & Loss Account", "Cash Flow Statement", "Trial Balance"], correct: 1 },
+        { q: "Depreciation is a ______ expense.", options: ["Direct", "Indirect", "Capital", "Non-cash"], correct: 1 },
+        { q: "The balance of Profit & Loss Account is transferred to:", options: ["Capital Account", "Trading Account", "Balance Sheet (Asset)", "Cash Account"], correct: 0 },
+        { q: "Which of the following is an example of revenue expense?", options: ["Purchase of land", "Payment of salaries", "Purchase of machinery", "Loan repayment"], correct: 1 },
+        { q: "Sales – Cost of goods sold = ?", options: ["Net profit", "Gross profit", "Operating profit", "Total income"], correct: 1 },
+        { q: "Which of these is not shown in Profit & Loss Account?", options: ["Rent paid", "Interest received", "Sales", "Audit fees"], correct: 2 },
+        { q: "A debit balance in Profit & Loss Account indicates:", options: ["Gross profit", "Net profit", "Net loss", "Gross loss"], correct: 2 },
+        { q: "Insurance premium paid is debited to:", options: ["Trading Account", "Profit & Loss Account", "Balance Sheet", "Insurance Company"], correct: 1 },
+
+        // 31-60: Balance Sheet with/without adjustments
+        { q: "Balance Sheet is a statement of:", options: ["Profit and loss", "Assets and liabilities", "Cash receipts and payments", "Sales and purchases"], correct: 1 },
+        { q: "Which of the following is a current asset?", options: ["Land", "Building", "Closing stock", "Machinery"], correct: 2 },
+        { q: "Capital is shown in the Balance Sheet as:", options: ["Asset", "Liability", "Income", "Expense"], correct: 1 },
+        { q: "Outstanding salary is a:", options: ["Current asset", "Current liability", "Non-current asset", "Contingent asset"], correct: 1 },
+        { q: "Prepaid rent is a:", options: ["Current liability", "Current asset", "Non-current liability", "Expense"], correct: 1 },
+        { q: "Which of the following is a tangible fixed asset?", options: ["Goodwill", "Patents", "Building", "Copyright"], correct: 2 },
+        { q: "A liability is a ______ of the business.", options: ["Debit balance", "Credit balance", "Capital balance", "Revenue balance"], correct: 1 },
+        { q: "Which of these is shown under 'Current Liabilities'?", options: ["Bank overdraft", "Debentures", "Long-term loan", "Building"], correct: 0 },
+        { q: "If closing stock is not adjusted, it will affect:", options: ["Only Balance Sheet", "Only Trading Account", "Both Trading Account and Balance Sheet", "Profit & Loss Account only"], correct: 2 },
+        { q: "Accrued income is a:", options: ["Liability", "Asset", "Income", "Expense"], correct: 1 },
+        { q: "Income received in advance is a:", options: ["Asset", "Liability", "Income", "Expense"], correct: 1 },
+        { q: "Depreciation on machinery is a:", options: ["Direct expense", "Indirect expense", "Liability", "Asset"], correct: 1 },
+        { q: "Which of the following is a fictitious asset?", options: ["Cash", "Stock", "Preliminary expenses", "Debtors"], correct: 2 },
+        { q: "Bank overdraft is a:", options: ["Current asset", "Fixed asset", "Current liability", "Contingent liability"], correct: 2 },
+        { q: "Which of these is a capital receipt?", options: ["Sale of goods", "Sale of fixed asset", "Interest received", "Commission received"], correct: 1 },
+        { q: "A balance sheet is prepared on a particular date, usually at the end of the:", options: ["Month", "Quarter", "Accounting year", "Week"], correct: 2 },
+        { q: "Which of the following is not an adjustment entry?", options: ["Closing stock", "Outstanding expenses", "Depreciation", "Cash sales"], correct: 3 },
+        { q: "If an adjustment is made for outstanding salary, it will:", options: ["Increase liability and decrease profit", "Decrease liability and increase profit", "Increase asset and increase profit", "No effect on profit"], correct: 0 },
+        { q: "Provision for doubtful debts is created on:", options: ["Debtors", "Creditors", "Cash", "Stock"], correct: 0 },
+        { q: "Interest on capital is a:", options: ["Expense for business", "Income for business", "Asset", "Liability"], correct: 0 },
+        { q: "Interest on drawings is a:", options: ["Expense for business", "Income for business", "Liability", "Asset"], correct: 1 },
+        { q: "Which of the following is a current liability?", options: ["Mortgage loan", "Creditors", "Building", "Furniture"], correct: 1 },
+        { q: "Goodwill is a:", options: ["Current asset", "Fictitious asset", "Intangible asset", "Tangible asset"], correct: 2 },
+        { q: "A balance sheet is also known as:", options: ["Statement of affairs", "Statement of financial position", "Trial balance", "Income statement"], correct: 1 },
+        { q: "Loose tools are shown under:", options: ["Fixed assets", "Current assets", "Investments", "Liabilities"], correct: 0 },
+        { q: "Which of the following is a non-current liability?", options: ["Creditors", "Bills payable", "Debentures", "Outstanding expenses"], correct: 2 },
+        { q: "Closing stock appearing in the trial balance is shown in:", options: ["Trading Account only", "Balance Sheet only", "Both Trading and Balance Sheet", "Profit & Loss Account"], correct: 1 },
+        { q: "If opening stock is not adjusted, it will affect:", options: ["Trading Account", "Profit & Loss Account", "Balance Sheet", "Both Trading and Balance Sheet"], correct: 3 },
+        { q: "Depreciation is shown in the Balance Sheet as:", options: ["Addition to asset", "Deduction from asset", "Liability", "Income"], correct: 1 },
+        { q: "Which of these is a capital expenditure?", options: ["Repair of machinery", "Purchase of furniture", "Payment of rent", "Salary paid"], correct: 1 },
+
+        // 61-90: Depreciation – concepts & methods
+        { q: "Depreciation is the allocation of the cost of an asset over its:", options: ["Useful life", "Market value", "Replacement cost", "Residual value"], correct: 0 },
+        { q: "Which of the following is not a method of depreciation?", options: ["Straight line method", "Written down value method", "Annuity method", "Trial balance method"], correct: 3 },
+        { q: "In straight line method, depreciation is calculated on:", options: ["Opening book value", "Original cost", "Closing book value", "Market value"], correct: 1 },
+        { q: "In written down value method, depreciation is calculated on:", options: ["Original cost", "Book value at the beginning of the year", "Residual value", "Market value"], correct: 1 },
+        { q: "Straight line method is also known as:", options: ["Diminishing balance method", "Fixed instalment method", "Reducing balance method", "Annuity method"], correct: 1 },
+        { q: "Written down value method is also known as:", options: ["Original cost method", "Diminishing balance method", "Fixed instalment method", "Straight line method"], correct: 1 },
+        { q: "Under straight line method, depreciation is:", options: ["Constant every year", "Decreasing every year", "Increasing every year", "Fluctuating"], correct: 0 },
+        { q: "Under written down value method, depreciation is:", options: ["Constant every year", "Decreasing every year", "Increasing every year", "Zero in later years"], correct: 1 },
+        { q: "Which method is suitable for assets like machinery and furniture?", options: ["Straight line method", "Written down value method", "Both are equally suitable", "Neither"], correct: 1 },
+        { q: "Depreciation is charged on:", options: ["Current assets", "Fixed assets", "Fictitious assets", "Intangible assets"], correct: 1 },
+        { q: "The residual value of an asset is also known as:", options: ["Scrap value", "Market value", "Book value", "Cost value"], correct: 0 },
+        { q: "Formula for depreciation under straight line method is: (Cost – Scrap value) / ______", options: ["Useful life", "Market value", "Book value", "Rate of depreciation"], correct: 0 },
+        { q: "If cost of machine is ₹1,00,000, scrap value ₹10,000, useful life 10 years, annual depreciation under SLM is:", options: ["₹9,000", "₹10,000", "₹11,000", "₹12,000"], correct: 0 },
+        { q: "Under WDV method, the depreciation rate is applied on:", options: ["Original cost", "Book value", "Scrap value", "Market value"], correct: 1 },
+        { q: "Depreciation is a ______ expense.", options: ["Cash", "Non-cash", "Direct", "Capital"], correct: 1 },
+        { q: "Which of the following is not a cause of depreciation?", options: ["Wear and tear", "Obsolescence", "Increase in market value", "Passage of time"], correct: 2 },
+        { q: "Depreciation fund method is also known as:", options: ["Sinking fund method", "Straight line method", "WDV method", "Annuity method"], correct: 0 },
+        { q: "Under annuity method, depreciation is based on:", options: ["Original cost", "Present value of annuity", "Scrap value", "Market value"], correct: 1 },
+        { q: "Which method considers the time value of money?", options: ["Straight line method", "Written down value method", "Annuity method", "Sum of years digits method"], correct: 2 },
+        { q: "The total amount of depreciation over the useful life of an asset is same under:", options: ["SLM and WDV", "SLM and annuity", "WDV and sinking fund", "All methods"], correct: 0 },
+        { q: "Depreciation is charged even if the asset is not used. (True/False)", options: ["True", "False", "Depends on management", "Only for tax purposes"], correct: 0 },
+        { q: "Under WDV method, the book value of asset:", options: ["Increases every year", "Decreases every year", "Remains constant", "Fluctuates"], correct: 1 },
+        { q: "If an asset is purchased on 1st October, depreciation for that year under SLM will be charged for:", options: ["Full year", "6 months", "3 months", "9 months"], correct: 1 },
+        { q: "Which of the following is a method of recording depreciation?", options: ["Charging to asset account", "Creating provision for depreciation account", "Both", "None"], correct: 2 },
+        { q: "Profit on sale of asset is transferred to:", options: ["Capital account", "Profit & Loss Account", "Trading Account", "Asset account"], correct: 1 },
+        { q: "Loss on sale of asset is debited to:", options: ["Profit & Loss Account", "Capital Account", "Asset Account", "Trading Account"], correct: 0 },
+        { q: "The book value of an asset is: Cost – ______", options: ["Scrap value", "Accumulated depreciation", "Market value", "Replacement cost"], correct: 1 },
+        { q: "Depreciation is calculated on ______ assets.", options: ["Current", "Fixed", "Liquid", "Fictitious"], correct: 1 },
+        { q: "The expected life of an asset is 5 years. Cost ₹50,000, scrap ₹5,000. SLM depreciation is:", options: ["₹9,000", "₹10,000", "₹8,000", "₹11,000"], correct: 0 },
+        { q: "Which of these is not a fixed asset?", options: ["Machinery", "Building", "Stock", "Furniture"], correct: 2 },
+
+        // 91-120: More on depreciation calculations, SLM & WDV, adjustments etc.
+        { q: "A machine costs ₹80,000. Depreciation @ 10% p.a. under WDV. What is depreciation for the second year?", options: ["₹8,000", "₹7,200", "₹8,800", "₹7,500"], correct: 1 },
+        { q: "Under SLM, if an asset is bought for ₹1,20,000 with life 6 years and scrap ₹12,000, annual depreciation = ?", options: ["₹18,000", "₹20,000", "₹16,000", "₹22,000"], correct: 0 },
+        { q: "Depreciation is charged on ______ in the Balance Sheet.", options: ["Liability side", "Asset side (deduction)", "Capital", "P&L credit"], correct: 1 },
+        { q: "Which method is allowed under the Income Tax Act, 1961?", options: ["Straight line method", "Written down value method", "Annuity method", "Sinking fund"], correct: 1 },
+        { q: "The formula for WDV depreciation is:", options: ["Book value × Rate", "Cost × Rate", "Scrap value × Rate", "Market value × Rate"], correct: 0 },
+        { q: "If machinery costing ₹50,000 is depreciated at 10% p.a. SLM, what is the book value after 2 years?", options: ["₹40,000", "₹45,000", "₹42,000", "₹35,000"], correct: 0 },
+        { q: "Which method leads to higher depreciation in the initial years?", options: ["SLM", "WDV", "Both same", "Annuity"], correct: 1 },
+        { q: "Depreciation is a ______ expenditure.", options: ["Capital", "Revenue", "Deferred", "Contingent"], correct: 1 },
+        { q: "When an asset is sold, the balance in the asset account is transferred to:", options: ["Asset disposal account", "Profit & Loss Account", "Capital Account", "Cash Account"], correct: 0 },
+        { q: "The profit or loss on sale of asset is calculated as: Sale proceeds – ______", options: ["Original cost", "Book value", "Market value", "Scrap value"], correct: 1 },
+        { q: "Which of the following is shown in the Balance Sheet as a deduction from the related asset?", options: ["Depreciation", "Accumulated depreciation", "Provision for doubtful debts", "Interest on capital"], correct: 1 },
+        { q: "A company purchased a machine for ₹5,00,000. Depreciation @ 20% WDV. After 2 years, book value will be:", options: ["₹3,20,000", "₹3,00,000", "₹3,60,000", "₹2,80,000"], correct: 0 },
+        { q: "Under SLM, if an asset is purchased on 1st July, depreciation for the first year (accounting year Jan-Dec) is charged for:", options: ["6 months", "9 months", "12 months", "3 months"], correct: 1 },
+        { q: "Which of these is not a method of depreciation?", options: ["Straight line", "Written down value", "Sum of years digits", "Trial balance"], correct: 3 },
+        { q: "Depreciation is charged on tangible fixed assets except:", options: ["Machinery", "Land", "Building", "Furniture"], correct: 1 },
+        { q: "If no depreciation is charged, profit will be:", options: ["Understated", "Overstated", "Correct", "Zero"], correct: 1 },
+        { q: "Accumulated depreciation is a:", options: ["Liability", "Contra asset", "Income", "Expense"], correct: 1 },
+        { q: "Which of the following is an example of an intangible asset that can be amortised?", options: ["Building", "Patent", "Machinery", "Stock"], correct: 1 },
+        { q: "The process of allocation of cost of intangible asset is called:", options: ["Depreciation", "Amortisation", "Depletion", "Appreciation"], correct: 1 },
+        { q: "Under WDV method, the depreciation amount ______ every year.", options: ["Increases", "Decreases", "Remains constant", "Doubles"], correct: 1 },
+        { q: "If an asset costs ₹1,00,000 and depreciation is 10% p.a. SLM, the book value after 3 years is:", options: ["₹70,000", "₹75,000", "₹80,000", "₹65,000"], correct: 0 },
+        { q: "Which of the following is not a fixed asset?", options: ["Plant", "Loose tools", "Investments", "Motor vehicle"], correct: 2 },
+        { q: "Depreciation is provided to comply with the:", options: ["Going concern concept", "Matching concept", "Consistency concept", "Accrual concept"], correct: 1 },
+        { q: "The balance of depreciation account is transferred to:", options: ["Asset account", "Profit & Loss Account", "Trading Account", "Capital Account"], correct: 1 },
+        { q: "A second-hand machine purchased and revalued at ₹80,000. Depreciation is charged on:", options: ["Original cost", "Revalued amount", "Market value", "Scrap value"], correct: 1 },
+        { q: "If closing stock is adjusted, it will appear in:", options: ["Trading Account (Cr.)", "Balance Sheet (Asset)", "Both", "Profit & Loss Account"], correct: 2 },
+        { q: "Outstanding expenses are shown in:", options: ["Balance Sheet as liability", "Trading Account", "Profit & Loss Account", "Capital Account"], correct: 0 },
+        { q: "Prepaid expenses are shown in:", options: ["Balance Sheet as asset", "Profit & Loss Account", "Trading Account", "Capital Account"], correct: 0 },
+        { q: "Which of the following is not an adjustment in final accounts?", options: ["Closing stock", "Outstanding salary", "Cash sales", "Depreciation"], correct: 2 },
+        { q: "Which of the following is correct? Depreciation under SLM = (Cost – Scrap) / Life. Under WDV = Book value × Rate.", options: ["Both statements are correct", "Only SLM correct", "Only WDV correct", "None"], correct: 0 }
+    ];
+
+    // Verify count (should be 
